@@ -1,0 +1,5 @@
+//This is what I have set up for armor. You can put the macros into the power itself, so I copied the power and s=added this to the bottom of the armor power. It looks like this:
+//Each one runs a quick macro that adds the armor or toughness adjustment from the CUB (Condition lab). the effect then goes for 5 rounds (or 30 seconds out of combat) and finishes. When you roll the spell activiation you have to choose manually which effect to put on. 
+//The big down sides are the Condition Lab gets crowded and you need to put all the macros into one folder so they don't swamp your other macros.
+//Set the CUB to data.stats.toughness.armor / add / +x 
+// The spell effects in CUB are labled "armor_spell_level_1" and "armor_spell_level_1t" If you rename them then change the names in the macros.
