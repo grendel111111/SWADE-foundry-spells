@@ -1,4 +1,3 @@
-```js
 main()
 // Modified from a macro by spacemandev
 async function main(){
@@ -51,4 +50,3 @@ ChatMessage.create({
 await
 
 game.Gametime.doIn({seconds:30}, () => {game.cub.removeCondition("increased_strength"), [game.user.actor]; }, {});
-```
