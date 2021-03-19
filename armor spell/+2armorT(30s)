@@ -1,0 +1,38 @@
+main()
+// Modified from a macro by spacemandev
+async function main(){
+  console.log("Hello World")
+  //Is a token selected? If not, error
+  console.log("Tokens: ", canvas.tokens.controlled)
+  if(canvas.tokens.controlled.length == 0 || canvas.tokens.controlled.length > 1){
+    ui.notifications.error("Please select a single token");
+    return;
+  }
+  let actor = canvas.tokens.controlled[0].actor
+
+//is about time active?
+if (game.modules.get("about-time").active != true) {
+            ui.notifications.error("About Time isn't loaded");
+    return;
+          }
+  /// Applies a status (requires CUB)
+  
+await game.cub.addCondition("armor_spell_level_1t"), [game.user.actor];
+
+  //report
+  
+  ui.notifications.info(`${actor.data.name} is protected`)
+}
+
+//Warning
+await 
+
+game.Gametime.doIn({seconds:24}, () => {
+ChatMessage.create({
+                  user: game.user._id,
+                  content: "Your protection is fading.",
+                 speaker: speaker
+                }, {})});
+await
+
+game.Gametime.doIn({seconds:30}, () => {game.cub.removeCondition("armor_spell_level_1t"), [game.user.actor]; }, {});
