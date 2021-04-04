@@ -1,0 +1,41 @@
+main()
+// Modified from a macro by spacemandev
+async function main(){
+  console.log("Hello World")
+  //Is a token selected? If not, error
+  console.log("Tokens: ", canvas.tokens.controlled)
+  if(canvas.tokens.controlled.length == 0 || canvas.tokens.controlled.length > 1){
+    ui.notifications.error("Please select a single token");
+    return;
+  }
+  let actor = canvas.tokens.controlled[0].actor
+
+  //Does the token have a health potion? Otherwise error
+  console.log("Actor: ", actor);
+  let healthpotion = actor.items.find(item => item.data.name == "Potion of Healing")
+  if(healthpotion == null || healthpotion == undefined) {
+ui.notifications.error("You don't have any Potions of Healing");
+    return;
+  }
+  
+  //If token is max health if so, don't do anything
+  if(actor.data.data.wounds.value == 0) {
+ui.notifications.error("You are not injured.");
+    return;
+  }
+
+  //Subtract a health potion
+  await healthpotion.update({"data.quantity": healthpotion.data.data.quantity - 1})
+  if(healthpotion.data.data.quantity < 1){
+    healthpotion.delete();
+  }
+  
+  //// remove 1 current wound
+  ////// If so, we want the new health to max 
+  let newHealth = actor.data.data.wounds.value - 1
+   
+
+  //update the actor health
+  await actor.update({"data.wounds.value": newHealth});
+  ui.notifications.info(`${actor.data.name} drank a Potion of Healing and cured 1 wound`)
+}
