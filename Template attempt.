@@ -1,0 +1,25 @@
+main()
+// Modified from a macro by spacemandev
+async function main(){
+  console.log("Hello World")
+  //Is a token selected? If not, error
+  console.log("Tokens: ", canvas.tokens.controlled)
+  if(canvas.tokens.controlled.length == 0 || canvas.tokens.controlled.length > 1){
+    ui.notifications.error("Please select a single token");
+    return;
+  }
+  
+  //Create tamplate
+  MeasuredTemplate.create({
+  t: "cone",
+  user: game.user._id,
+  x: (token.data.x+token.data.height*canvas.dimensions.size),
+  y: (token.data.y+token.data.height*(canvas.dimensions.size*0.5)),
+  direction: 0.45,
+  angle: 63.13,
+  distance: 9,
+  borderColor: "#770101",
+  fillColor: "#FFffff",
+  fillOpacity: 0,
+});
+}
