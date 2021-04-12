@@ -1,0 +1,49 @@
+main()
+// Modified from a macro by spacemandev
+async function main(){
+  console.log("Hello World")
+  //Is a token selected? If not, error
+  console.log("Tokens: ", canvas.tokens.controlled)
+  if(canvas.tokens.controlled.length == 0 || canvas.tokens.controlled.length > 1){
+    ui.notifications.error("Please select a single token");
+    return;
+  }
+  let actor = canvas.tokens.controlled[0].actor
+
+//is about time active?
+if (game.modules.get("about-time").active != true) {
+            ui.notifications.error("About Time isn't loaded");
+    return;
+          }
+  //Does the token have a Potion of Strength? Otherwise error
+  console.log("Actor: ", actor);
+  let strengthpotion = actor.items.find(item => item.data.name == "Potion of Speed")
+  if(strengthpotion == null || strengthpotion == undefined) {
+ui.notifications.error("You don't have any Potions of Speed");
+    return;               
+  }
+
+  //Subtract a potion of strength
+  await speedpotion.update({"data.quantity": speedpotion.data.data.quantity - 1})
+if(speedpotion.data.data.quantity < 1){
+    speedpotion.delete();
+}
+  
+  /// Applies a status (requires CUB)
+  
+await game.cub.addCondition("speed"), [game.user.actor];
+
+  //report
+  
+  ui.notifications.info(`${actor.data.name} drank a Potion of Speed and can move faster`)
+}
+
+//Warning
+await 
+
+game.Gametime.doIn({seconds:24}, () => {
+ChatMessage.create({
+                  user: game.user._id,
+                  content: "Your Potion of Speed starts to wear off.",
+                 speaker: speaker
+                }, {})});
