@@ -14,52 +14,15 @@ async function main(){
   console.log("Actor: ", actor);
   let healthpotion = actor.items.find(item => item.data.name == "Potion of Invigoration")
   if(healthpotion == null || healthpotion == undefined) {
-
-       ChatMessage.create({
-
- 
-
-                  user: game.user._id,
-
- 
-
-                  content: "You don't have any Potions of Invigoration.",
-
- 
-
-                  speaker: speaker
-
- 
-
-                })
-
+ui.notifications.error("You don't have any Potions of Healing");
     return;
-
+ 
   }
   
   //If token has no fatigue, don't do anything
   if(actor.data.data.fatigue.value == 0) {
-
-       ChatMessage.create({
-
- 
-
-                  user: game.user._id,
-
- 
-
-                  content: "You are not fatigued.",
-
- 
-
-                  speaker: speaker
-
- 
-
-                })
-
+ui.notifications.error("You are not fatigued.");
     return;
-
   }
 
   //Subtract a Potion of Invigoration
@@ -76,23 +39,5 @@ async function main(){
   //update the actor health
   await actor.update({"data.fatigue.value": newHealth});
   ui.notifications.info(`${actor.data.name} drank a Potion of Invigoration and removed 1 level of fatigue`)
-
- ChatMessage.create({
-
- 
-
-                  user: game.user._id,
-
- 
-
-                  content: "drank a Potion of Invigoration and removed 1 level of fatigue.",
-
- 
-
-                  speaker: speaker
-
- 
-
-                })
 
 }
