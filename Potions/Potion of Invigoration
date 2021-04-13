@@ -1,0 +1,98 @@
+main()
+// Modified from a macro by spacemandev
+async function main(){
+  console.log("Hello World")
+  //Is a token selected? If not, error
+  console.log("Tokens: ", canvas.tokens.controlled)
+  if(canvas.tokens.controlled.length == 0 || canvas.tokens.controlled.length > 1){
+    ui.notifications.error("Please select a single token");
+    return;
+  }
+  let actor = canvas.tokens.controlled[0].actor
+
+  //Does the token have a health potion? Otherwise error
+  console.log("Actor: ", actor);
+  let healthpotion = actor.items.find(item => item.data.name == "Potion of Invigoration")
+  if(healthpotion == null || healthpotion == undefined) {
+
+       ChatMessage.create({
+
+ 
+
+                  user: game.user._id,
+
+ 
+
+                  content: "You don't have any Potions of Invigoration.",
+
+ 
+
+                  speaker: speaker
+
+ 
+
+                })
+
+    return;
+
+  }
+  
+  //If token has no fatigue, don't do anything
+  if(actor.data.data.fatigue.value == 0) {
+
+       ChatMessage.create({
+
+ 
+
+                  user: game.user._id,
+
+ 
+
+                  content: "You are not fatigued.",
+
+ 
+
+                  speaker: speaker
+
+ 
+
+                })
+
+    return;
+
+  }
+
+  //Subtract a Potion of Invigoration
+  await healthpotion.update({"data.quantity": healthpotion.data.data.quantity - 1})
+  if(healthpotion.data.data.quantity < 1){
+    healthpotion.delete();
+  }
+  
+  //// remove 1 current fatigue level
+  ////// If so, we want the new health to max 
+  let newHealth = actor.data.data.fatigue.value - 1
+   
+
+  //update the actor health
+  await actor.update({"data.fatigue.value": newHealth});
+  ui.notifications.info(`${actor.data.name} drank a Potion of Invigoration and removed 1 level of fatigue`)
+
+ ChatMessage.create({
+
+ 
+
+                  user: game.user._id,
+
+ 
+
+                  content: "drank a Potion of Invigoration and removed 1 level of fatigue.",
+
+ 
+
+                  speaker: speaker
+
+ 
+
+                })
+
+}
